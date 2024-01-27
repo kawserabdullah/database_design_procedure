@@ -1,96 +1,140 @@
-﻿-- MySQL Workbench
+﻿-- MySQL Workbench 8.0 CE
 -- Data Science Company Database (dsc_database)
+-- My GitHub Link: https://github.com/kawserabdullah
 
--- creation database
+-- Creat Database
 DROP DATABASE IF EXISTS dsc_database;
 CREATE DATABASE dsc_database;
 USE dsc_database;
 
--- departments table
-CREATE TABLE departments (
-    dept_no INT(2),
-    department_name VARCHAR(50),
-    PRIMARY KEY (dept_no)
+-- Departments Table
+CREATE TABLE `Departments` (
+    `dept_no` int(2)  NOT NULL ,
+    `department_name` varchar(50)  NOT NULL ,
+    PRIMARY KEY (
+        `dept_no`
+    )
 );
 
--- employees table
-CREATE TABLE employees (
-    emp_id CHAR(6),
-    first_name VARCHAR(50),
-    last_name VARCHAR(50),
-    email VARCHAR(50),
-    emp_phone INT,
-    dept_no INT(2),
-    position VARCHAR(50),
-    start_date DATE,
-    PRIMARY KEY (emp_id),
-    CONSTRAINT fk_dept_no_departments FOREIGN KEY (dept_no) REFERENCES departments(dept_no)
+-- Employees Table
+CREATE TABLE `Employees` (
+    `emp_id` int(10)  NOT NULL ,
+    `first_name` varchar(50)  NOT NULL ,
+    `last_name` varchar(50)  NOT NULL ,
+    `email` varchar(100)  NOT NULL ,
+    `emp_phone` int(12)  NOT NULL ,
+    `dept_no` int(2)  NOT NULL ,
+    `position` varchar(50)  NOT NULL ,
+    `start_date` date  NOT NULL ,
+    PRIMARY KEY (
+        `emp_id`
+    )
 );
 
--- projects table
-CREATE TABLE projects (
-    project_id INT(5),
-    project_name VARCHAR(50),
-    start_date DATE,
-    end_date DATE,
-    status VARCHAR(50),
-    dept_no INT(2),
-    PRIMARY KEY (project_id)
+-- Projects Table
+CREATE TABLE `Projects` (
+    `project_id` char(7)  NOT NULL ,
+    `project_name` varchar(50)  NOT NULL ,
+    `start_Date` date  NOT NULL ,
+    `end_date` date  NOT NULL ,
+    `status` varchar(50)  NOT NULL ,
+    `dept_no` int(2)  NOT NULL ,
+    PRIMARY KEY (
+        `project_id`
+    )
 );
 
--- tasks table
-CREATE TABLE tasks (
-    task_id INT(4),
-    project_id INT(5),
-    emp_id CHAR(6),
-    due_date DATE,
-    status VARCHAR(50),
-    PRIMARY KEY (task_id),
-    CONSTRAINT fk_tasks_project_id FOREIGN KEY (project_id) REFERENCES projects(project_id),
-    CONSTRAINT fk_tasks_emp_id FOREIGN KEY (emp_id) REFERENCES employees(emp_id)
+
+
+
+-- Tasks Table
+CREATE TABLE `Tasks` (
+    `task_id` char(8)  NOT NULL ,
+    `project_id` char(7)  NOT NULL ,
+    `emp_id` int(10)  NOT NULL ,
+    `due_date` date  NOT NULL ,
+    `status` varchar(50)  NOT NULL ,
+    PRIMARY KEY (
+        `task_id`
+    )
 );
 
--- customers table
-CREATE TABLE customers (
-    cust_id CHAR(6),
-    cust_name VARCHAR(50),
-    email VARCHAR(50),
-    cust_phone INT,
-    address VARCHAR(50),
-    project_id INT(5),
-    PRIMARY KEY (cust_id),
-    CONSTRAINT fk_customers_project_id FOREIGN KEY (project_id) REFERENCES projects(project_id)
+-- Customers Table
+CREATE TABLE `Customers` (
+    `cust_id` char(9)  NOT NULL ,
+    `cust_name` varchar(70)  NOT NULL ,
+    `email` varchar(100)  NOT NULL ,
+    `cust_phone` int(12)  NOT NULL ,
+    `address` varchar(100)  NOT NULL ,
+    `sale_id` int(7)  NOT NULL ,
+    `project_id` char(7)  NOT NULL ,
+    PRIMARY KEY (
+        `cust_id`
+    )
 );
 
--- sales table
-CREATE TABLE sales (
-    sale_id INT(3),
-    cust_id CHAR(6),
-    sales_date DATE,
-    sales_price INT,
-    PRIMARY KEY (sale_id),
-    CONSTRAINT fk_sales_cust_id FOREIGN KEY (cust_id) REFERENCES customers(cust_id)
+-- Sales Table
+CREATE TABLE `Sales` (
+    `sale_id` int(7)  NOT NULL ,
+    `cust_id` char(9)  NOT NULL ,
+    `sales_date` date  NOT NULL ,
+    `sales_price` float  NOT NULL ,
+    PRIMARY KEY (
+        `sale_id`
+    )
 );
 
--- expenses table
-CREATE TABLE expenses (
-    exp_no INT(7),
-    project_id INT(5),
-    exp_date DATE,
-    exp_amount INT,
-    category VARCHAR(50),
-    PRIMARY KEY (exp_no),
-    CONSTRAINT fk_expenses_project_id FOREIGN KEY (project_id) REFERENCES projects(project_id)
+-- Expenses Table
+CREATE TABLE `Expenses` (
+    `exp_no` int(6)  NOT NULL ,
+    `project_id` char(7)  NOT NULL ,
+    `exp_date` date  NOT NULL ,
+    `exp_amount` float  NOT NULL ,
+    `category` varchar(50)  NOT NULL ,
+    PRIMARY KEY (
+        `exp_no`
+    )
 );
 
--- futurePlans table
-CREATE TABLE futurePlans (
-    plan_no INT(3),
-    description VARCHAR(50),
-    target_date DATE,
-    priority INT,
-    status VARCHAR(50),
-    dept_no INT(2),
-    PRIMARY KEY (plan_no),
-    CONSTRAINT fk_dept_no_futurePlans FOREIGN KEY (dept_no) REFERENCES departments(dept_no)
+
+
+-- FuturePlans Table
+CREATE TABLE `FuturePlans` (
+    `plan_no` int(3)  NOT NULL ,
+    `description` text  NOT NULL ,
+    `target_date` date  NOT NULL ,
+    `priority` int  NOT NULL ,
+    `status` varchar(50)  NOT NULL ,
+    `dept_no` int(2)  NOT NULL ,
+    PRIMARY KEY (
+        `plan_no`
+    )
 );
+
+-- Relationships Build up using PK and FK
+ALTER TABLE `Employees` ADD CONSTRAINT `fk_Employees_dept_no` FOREIGN KEY(`dept_no`)
+REFERENCES `Departments` (`dept_no`);
+
+ALTER TABLE `Projects` ADD CONSTRAINT `fk_Projects_dept_no` FOREIGN KEY(`dept_no`)
+REFERENCES `Departments` (`dept_no`);
+
+ALTER TABLE `Tasks` ADD CONSTRAINT `fk_Tasks_project_id` FOREIGN KEY(`project_id`)
+REFERENCES `Projects` (`project_id`);
+
+ALTER TABLE `Tasks` ADD CONSTRAINT `fk_Tasks_emp_id` FOREIGN KEY(`emp_id`)
+REFERENCES `Employees` (`emp_id`);
+
+ALTER TABLE `Customers` ADD CONSTRAINT `fk_Customers_sale_id` FOREIGN KEY(`sale_id`)
+REFERENCES `Sales` (`sale_id`);
+
+ALTER TABLE `Customers` ADD CONSTRAINT `fk_Customers_project_id` FOREIGN KEY(`project_id`)
+REFERENCES `Projects` (`project_id`);
+
+ALTER TABLE `Sales` ADD CONSTRAINT `fk_Sales_cust_id` FOREIGN KEY(`cust_id`)
+REFERENCES `Customers` (`cust_id`);
+
+ALTER TABLE `Expenses` ADD CONSTRAINT `fk_Expenses_project_id` FOREIGN KEY(`project_id`)
+REFERENCES `Projects` (`project_id`);
+
+ALTER TABLE `FuturePlans` ADD CONSTRAINT `fk_FuturePlans_dept_no` FOREIGN KEY(`dept_no`)
+REFERENCES `Departments` (`dept_no`);
