@@ -37,7 +37,7 @@ CREATE TABLE `Projects` (
     `project_name` varchar(50)  NOT NULL ,
     `start_Date` date  NOT NULL ,
     `end_date` date  NOT NULL ,
-    `status` varchar(50)  NOT NULL ,
+    `status` varchar(50)  NULL ,
     `dept_no` int(2)  NOT NULL ,
     PRIMARY KEY (
         `project_id`
@@ -53,7 +53,7 @@ CREATE TABLE `Tasks` (
     `project_id` char(7)  NOT NULL ,
     `emp_id` int(10)  NOT NULL ,
     `due_date` date  NOT NULL ,
-    `status` varchar(50)  NOT NULL ,
+    `status` varchar(50)  NULL ,
     PRIMARY KEY (
         `task_id`
     )
@@ -65,9 +65,9 @@ CREATE TABLE `Customers` (
     `cust_name` varchar(70)  NOT NULL ,
     `email` varchar(100)  NOT NULL ,
     `cust_phone` int(12)  NOT NULL ,
-    `address` varchar(100)  NOT NULL ,
+    `address` varchar(100)  NULL ,
     `sale_id` int(7)  NOT NULL ,
-    `project_id` char(7)  NOT NULL ,
+    `project_id` char(7)  NULL ,
     PRIMARY KEY (
         `cust_id`
     )
@@ -90,7 +90,7 @@ CREATE TABLE `Expenses` (
     `project_id` char(7)  NOT NULL ,
     `exp_date` date  NOT NULL ,
     `exp_amount` float  NOT NULL ,
-    `category` varchar(50)  NOT NULL ,
+    `category` varchar(50)  NULL ,
     PRIMARY KEY (
         `exp_no`
     )
@@ -101,10 +101,10 @@ CREATE TABLE `Expenses` (
 -- FuturePlans Table
 CREATE TABLE `FuturePlans` (
     `plan_no` int(3)  NOT NULL ,
-    `description` text  NOT NULL ,
-    `target_date` date  NOT NULL ,
-    `priority` int  NOT NULL ,
-    `status` varchar(50)  NOT NULL ,
+    `description` text  NULL ,
+    `target_date` date  NULL ,
+    `priority` int  NULL ,
+    `status` varchar(50)  NULL ,
     `dept_no` int(2)  NOT NULL ,
     PRIMARY KEY (
         `plan_no`
